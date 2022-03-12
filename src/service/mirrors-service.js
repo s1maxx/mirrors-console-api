@@ -3,7 +3,7 @@ import ApiError from "../exceptions/api-error.js";
 
 class MirrorsService{
     async getAllMirrors(){
-        const request = "Select * from mirrors";
+        const request = "Select * from mirrors Order by id";
         const res = await db.query(request);
         if(res.rowCount === 0)
             throw ApiError.NotFound();

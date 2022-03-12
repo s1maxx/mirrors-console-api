@@ -3,7 +3,7 @@ import ApiError from "../exceptions/api-error.js";
 
 class UserService{
     async getAllUsers(){
-        const request = "Select * from users";
+        const request = "Select * from users Order by id";
         const res = await db.query(request);
         if(res.rowCount === 0)
             throw ApiError.NotFound();
