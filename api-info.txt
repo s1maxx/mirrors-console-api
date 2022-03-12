@@ -1,0 +1,31 @@
+The following endpoints are currently implemented:
+
+API (/api) =>
+
+"path": "/", "desc": "return all endpoints", "type":"GET"
+"path": "/tables", "desc": "return all tables from DB", "type":"GET"
+"path": "/table/:name", "desc": "return tables by name from DB", "type":"GET"
+
+USERS (/api/)=> 
+
+"path": "/users", "desc": "return all users from DB", "type":"GET"
+"path": "/user/:id", "desc": "return user by ID", "type":"GET"
+"path": "/user/add", "desc": "add user to DB", "type":"POST", "content-type":"application/json"
+"path": "/user/:id", "desc": "remove user from DB", "type":"DELETE"
+"path": "/user/:id", "desc": "update user from DB", "type":"PUT", "content-type":"application/json"
+
+PROFILES (/api/)=> 
+
+"path": "/profiles", "desc": "return all profiles from DB", "type":"GET"
+"path": "/profile/:id", "desc": "return profile by ID", "type":"GET"
+"path": "/profile/add", "desc": "add profile to DB", "type":"POST", "content-type":"application/json"
+"path": "/profile/:id", "desc": "remove profile from DB", "type":"DELETE"
+"path": "/profile/:id", "desc": "update profile from DB", "type":"PUT", "content-type":"application/json"
+
+MIRRORS (/api/)=> 
+
+"path": "/mirrors", "desc": "return all mirrors from DB", "type":"GET"
+"path": "/mirror/:id", "desc": "return mirror by ID", "type":"GET"
+"path": "/mirror/add", "desc": "add mirror to DB", "type":"POST", "content-type":"application/json"
+"path": "/mirror/:id", "desc": "remove mirror from DB", "type":"DELETE"
+"path": "/mirror/:id", "desc": "update mirror from DB", "type":"PUT", "content-type":"application/json"
