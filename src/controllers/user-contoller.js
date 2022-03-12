@@ -45,6 +45,11 @@ class UserController {
     }
     async updateUser(req, res, next){
         try{
+            const errors = validationResult(req);
+            if(!errors.isEmpty())
+            {
+                return next(ApiError.BadRequest('Error with update_user function', errors))
+            }
             const updatedUser = await UserService.updateUser(req.body, req.params.id);
             return res.json(updatedUser.rows[0])
         }catch (e)

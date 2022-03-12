@@ -46,6 +46,11 @@ class MirrorsController {
     }
     async updateMirror(req, res, next){
         try{
+            const errors = validationResult(req);
+            if(!errors.isEmpty())
+            {
+                return next(ApiError.BadRequest('Error with update_mirror function', errors))
+            }
             const updatedMirror = await MirrorsService.updateMirror(req.body, req.params.id);
             return res.json(updatedMirror.rows[0])
         }catch (e)

@@ -45,6 +45,11 @@ class ProfileController {
     }
     async updateProfile(req, res, next){
         try{
+            const errors = validationResult(req);
+            if(!errors.isEmpty())
+            {
+                return next(ApiError.BadRequest('Error with update_profile function', errors))
+            }
             const updatedProfile = await ProfileService.updateProfile(req.body, req.params.id);
             return res.json(updatedProfile.rows[0])
         }catch (e)
