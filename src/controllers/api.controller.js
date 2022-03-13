@@ -53,12 +53,11 @@ class ApiController {
     async getMe(req, res, next){
         try{
             const {refreshToken} = req.cookies;
-            console.log(req.cookies)
             if(refreshToken === undefined)
             {
                 throw ApiError.BadRequest("RefreshToken is invalid");
             }
-            const userData = await TokenService.validateTokenRefresh(refreshToken);
+            const userData = await TokenService.validateTokenAccess(refreshToken);
             if(!userData)
             {
                 throw ApiError.BadRequest("RefreshToken is invalid");
