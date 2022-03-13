@@ -4,6 +4,7 @@ import {validationResult} from "express-validator";
 import ApiService from "../service/api.service.js";
 import {routesArrayDelete, routesArrayGet, routesArrayPost, routesArrayUpdate} from "../router/routes/index.js";
 import bcrypt from "bcrypt";
+import TokenService from "../service/token.service.js";
 
 class ApiController {
     async getApiRoutes(req, res, next) {
@@ -47,6 +48,25 @@ class ApiController {
 
     async getTable(req, res, next){
         res.json(await ApiService.getTable(req.params.name))
+    }
+
+    async getMe(req, res, next){
+        try{
+            const {refreshToken} = req.cookies;
+            if(refreshToken === undefined)
+            {
+                throw ApiError.BadRequest("RefreshToken is invalid");
+            }
+            const userData = await TokenService.validateTokenRefresh(refreshToken);
+            if(!userData)
+            {
+                throw ApiError.BadRequest("RefreshToken is invalid");
+            }
+            return res.json({"id":userData.id, "username":userData.username});
+        }catch (e)
+        {
+            next(e);
+        }
     }
 
     async login(req, res, next)

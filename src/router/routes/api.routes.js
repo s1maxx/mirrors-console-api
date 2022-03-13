@@ -6,6 +6,7 @@ const apiArrayGet = [
     {path:'/tables', needAuth:true, function:apiController.getTables, description: "return all tables from DB"},
     {path:'/table/:name',needAuth:true,function:apiController.getTable, description: "return tables by name from DB"},
     {path:'/refresh',needAuth:false,function:apiController.refresh, description: "refresh token"},
+    {path:'/me',needAuth:true,function:apiController.getMe, description: "return user"},
 ]
 
 const apiArrayPost = [
