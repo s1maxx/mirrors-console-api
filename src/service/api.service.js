@@ -33,7 +33,6 @@ class ApiService{
             throw ApiError.BadRequest(`User with name - ${username} not found`);
         }
 
-        console.log(await bcrypt.hash(password, 5));
         const isPassEquals = await bcrypt.compare(password, user.rows[0].password);
         if(!isPassEquals)
         {
