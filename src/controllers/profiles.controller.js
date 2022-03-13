@@ -1,4 +1,4 @@
-import ProfileService from "../service/profile-service.js";
+import ProfileService from "../service/profile.service.js";
 import ApiError from "../exceptions/api-error.js";
 import {validationResult} from "express-validator";
 

@@ -6,5 +6,5 @@ export default function (err, req, res, next) {
     {
         return res.status(err.status).json({messages: err.message, errors: err.errors})
     }
-    return res.status(500).json({message: "Server error"})
+    return res.status(500).json({message: "Server error : " + err.message})
 }

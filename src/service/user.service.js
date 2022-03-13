@@ -35,14 +35,16 @@ class UserService{
     }
     async createUser(user)
     {
-        const request = `Insert into users(uuid,email,password,role,is_activated) values($1, $2, $3, $4, $5) returning *`;
+        const request = `Insert into users(uuid,email,password,role,is_activated, description, zipcode) values($1, $2, $3, $4, $5, $6, $7) returning *`;
 
         const res = await db.query(request, [
             user.uuid,
             user.email,
             user.password,
             user.role,
-            user.is_activated]);
+            user.is_activated,
+            user.description,
+            user.zipcode]);
 
         if(res.rowCount === 0)
             throw ApiError.ServerException();
@@ -50,7 +52,7 @@ class UserService{
     }
     async updateUser(updatedUser, userID)
     {
-        const request = `Update users set  uuid = $1, email = $2,password = $3,role = $4,is_activated = $5 where id = $6 returning *`;
+        const request = `Update users set uuid = $1, email = $2,password = $3,role = $4,is_activated = $5, description = $6, zipcode = $7 where id = $8 returning *`;
 
         const res = await db.query(request, [
             updatedUser.uuid,
@@ -58,6 +60,8 @@ class UserService{
             updatedUser.password,
             updatedUser.role,
             updatedUser.is_activated,
+            updatedUser.description,
+            updatedUser.zipcode,
             userID]);
 
         if(res.rowCount === 0)

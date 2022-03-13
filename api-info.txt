@@ -1,31 +1,63 @@
 The following endpoints are currently implemented:
+WE ARE WORK WITH JWT AUTH
 
 API (/api) =>
 
-"path": "/", "desc": "return all endpoints", "type":"GET"
-"path": "/tables", "desc": "return all tables from DB", "type":"GET"
-"path": "/table/:name", "desc": "return tables by name from DB", "type":"GET"
+"path": "/", "desc": "return all endpoints", "type":"GET" Authorization : Bearer
+"path": "/tables", "desc": "return all tables from DB", "type":"GET" Authorization : Bearer
+"path": "/table/:name", "desc": "return tables by name from DB", "type":"GET" Authorization : Bearer
+"path": "/login" "desc": "login", "type":"POST"
+"path": "/refresh" "desc": "refresh token", "type":"GET", Authorization : Bearer
+"path": "/logout" "desc": "logout", "type":"POST", Authorization : Bearer
 
 USERS (/api/)=> 
 
-"path": "/users", "desc": "return all users from DB", "type":"GET"
-"path": "/user/:id", "desc": "return user by ID", "type":"GET"
-"path": "/user/add", "desc": "add user to DB", "type":"POST", "content-type":"application/json"
-"path": "/user/:id", "desc": "remove user from DB", "type":"DELETE"
-"path": "/user/:id", "desc": "update user from DB", "type":"PUT", "content-type":"application/json"
+"path": "/users", "desc": "return all users from DB", "type":"GET", Authorization : Bearer
+"path": "/user/:id", "desc": "return user by ID", "type":"GET", Authorization : Bearer
+"path": "/user/add", "desc": "add user to DB", "type":"POST", "content-type":"application/json", Authorization : Bearer
+"path": "/user/:id", "desc": "remove user from DB", "type":"DELETE", Authorization : Bearer
+"path": "/user/:id", "desc": "update user from DB", "type":"PUT", "content-type":"application/json", Authorization : Bearer
 
 PROFILES (/api/)=> 
 
-"path": "/profiles", "desc": "return all profiles from DB", "type":"GET"
-"path": "/profile/:id", "desc": "return profile by ID", "type":"GET"
-"path": "/profile/add", "desc": "add profile to DB", "type":"POST", "content-type":"application/json"
-"path": "/profile/:id", "desc": "remove profile from DB", "type":"DELETE"
-"path": "/profile/:id", "desc": "update profile from DB", "type":"PUT", "content-type":"application/json"
+"path": "/profiles", "desc": "return all profiles from DB", "type":"GET",Authorization : Bearer
+"path": "/profile/:id", "desc": "return profile by ID", "type":"GET", Authorization : Bearer
+"path": "/profile/add", "desc": "add profile to DB", "type":"POST", "content-type":"application/json", Authorization : Bearer
+"path": "/profile/:id", "desc": "remove profile from DB", "type":"DELETE", Authorization : Bearer
+"path": "/profile/:id", "desc": "update profile from DB", "type":"PUT", "content-type":"application/json", Authorization : Bearer
 
 MIRRORS (/api/)=> 
 
-"path": "/mirrors", "desc": "return all mirrors from DB", "type":"GET"
-"path": "/mirror/:id", "desc": "return mirror by ID", "type":"GET"
-"path": "/mirror/add", "desc": "add mirror to DB", "type":"POST", "content-type":"application/json"
-"path": "/mirror/:id", "desc": "remove mirror from DB", "type":"DELETE"
-"path": "/mirror/:id", "desc": "update mirror from DB", "type":"PUT", "content-type":"application/json"
+"path": "/mirrors", "desc": "return all mirrors from DB", "type":"GET",Authorization : Bearer
+"path": "/mirror/:id", "desc": "return mirror by ID", "type":"GET", Authorization : Bearer
+"path": "/mirror/add", "desc": "add mirror to DB", "type":"POST", "content-type":"application/json",Authorization : Bearer 
+"path": "/mirror/:id", "desc": "remove mirror from DB", "type":"DELETE", Authorization : Bearer
+"path": "/mirror/:id", "desc": "update mirror from DB", "type":"PUT", "content-type":"application/json",Authorization : Bearer
+
+PROFILE_VIDEO (/api/)=> 
+
+"path": "/profile/video/:id", "desc": "return video by ID", "type":"GET", Authorization : Bearer
+"path": "/profile/video/add", "desc": "add video to DB", "type":"POST", "content-type":"application/json",Authorization : Bearer 
+"path": "/profile/video/:id", "desc": "remove video from DB", "type":"DELETE", Authorization : Bearer
+"path": "/profile/video/:id", "desc": "update video from DB", "type":"PUT", "content-type":"application/json",Authorization : Bearer
+
+PROFILE_SNAPS (/api/)=> 
+
+"path": "/profile/snap/:id", "desc": "return snap by ID", "type":"GET", Authorization : Bearer
+"path": "/profile/snap/add", "desc": "add snap to DB", "type":"POST", "content-type":"application/json",Authorization : Bearer 
+"path": "/profile/snap/:id", "desc": "remove snap from DB", "type":"DELETE", Authorization : Bearer
+"path": "/profile/snap/:id", "desc": "update snap from DB", "type":"PUT", "content-type":"application/json",Authorization : Bearer
+
+PROFILE_SETTINGS (/api/)=> 
+
+"path": "/profile/settings/:id", "desc": "return settings by ID", "type":"GET", Authorization : Bearer
+"path": "/profile/settings/add", "desc": "add settings to DB", "type":"POST", "content-type":"application/json",Authorization : Bearer 
+"path": "/profile/settings/:id", "desc": "remove settings from DB", "type":"DELETE", Authorization : Bearer
+"path": "/profile/settings/:id", "desc": "update settings from DB", "type":"PUT", "content-type":"application/json",Authorization : Bearer
+
+SNAPS (/api/)
+
+"path": "/snap/:id", "desc": "return snap by ID", "type":"GET", Authorization : Bearer
+"path": "/snap/add", "desc": "add snap to DB", "type":"POST", "content-type":"application/json",Authorization : Bearer 
+"path": "/snap/:id", "desc": "remove snap from DB", "type":"DELETE", Authorization : Bearer
+"path": "/snap/:id", "desc": "update snap from DB", "type":"PUT", "content-type":"application/json",Authorization : Bearer

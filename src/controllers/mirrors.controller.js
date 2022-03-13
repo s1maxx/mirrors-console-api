@@ -1,4 +1,4 @@
-import MirrorsService from "../service/mirrors-service.js";
+import MirrorsService from "../service/mirrors.service.js";
 import ApiError from "../exceptions/api-error.js";
 import {validationResult} from "express-validator";
 
@@ -23,7 +23,6 @@ class MirrorsController {
     async addMirror(req,res,next){
         try{
             const errors = validationResult(req);
-            console.log(req.body)
             if(!errors.isEmpty())
             {
                 return next(ApiError.BadRequest('Error with create_mirror function', errors))
