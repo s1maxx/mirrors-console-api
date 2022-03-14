@@ -11,6 +11,7 @@ export default function (req, res, next){
         }
 
         const accessToken = authorizationHeader.split(' ')[1];
+        console.log(accessToken, "<-- token")
         if(!accessToken)
         {
             console.log(2)
