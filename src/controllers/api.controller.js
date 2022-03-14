@@ -72,7 +72,7 @@ class ApiController {
             }
             const {username, password} = req.body;
             const userData = await ApiService.login(username, password);
-            res.cookie('refreshToken', userData.refreshToken, {maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true, sameSite:"none", secure: true});
+            res.cookie('refreshToken', userData.refreshToken, {maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true, sameSite:"none", secure: false});
             return res.json(userData);
         }catch (e)
         {
@@ -109,7 +109,7 @@ class ApiController {
                 ApiError.BadRequest("RefreshToken is invalid");
             }
             const token = await ApiService.refresh(refreshToken);
-            res.cookie('refreshToken', token.refreshToken, {maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true, sameSite:"none", secure:true});
+            res.cookie('refreshToken', token.refreshToken, {maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true, sameSite:"none", secure:false});
             return res.json(token);
         }catch (e)
         {
