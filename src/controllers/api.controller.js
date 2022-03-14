@@ -85,7 +85,8 @@ class ApiController {
         try{
             const {refreshToken} = req.cookies;
             console.log(`$token is - ${refreshToken}`)
-            console.log(`$cookies is - ${req.cookies}`)
+            console.log(`$cookies is - ${req.cookies["refreshToken"]}`)
+            console.log()
             if(refreshToken === undefined)
             {
                 throw ApiError.BadRequest("RefreshToken is invalid");
