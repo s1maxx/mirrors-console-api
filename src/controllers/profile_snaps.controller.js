@@ -6,7 +6,7 @@ class ProfileSnapsController {
     async getProfileSnap(req,res,next){
         try{
             const profile = await ProfileSnapService.getProfileSnap(req.params.id);
-            return res.json(profile.rows[0]);
+            return res.json(profile.rows);
         }catch (e)
         {
             next(e);
