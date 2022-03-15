@@ -55,7 +55,7 @@ class ApiService{
     async isUserHasAccess(userID, table, objectID)
     {
         const joinTable = table === profiles ? `` : `join profiles as p on p.profile_owner = profile_id`;
-        const request = `SELECT m.* FROM ${table} as m ${joinTable} WHERE profile_owner = $1 and ${joinTable !== `` ? "p." : ""}id = $2`;
+        const request = `SELECT m.* FROM ${table} as m ${joinTable} WHERE profile_owner = $1 and ${joinTable !== `` ? "m." : ""}id = $2`;
         const user = await db.query(request, [userID, objectID]);
         if(user.rowCount === 0)
         {
