@@ -2,6 +2,7 @@ import ApiError from "../exceptions/api-error.js";
 import tokenService from "../service/token.service.js";
 import apiService from "../service/api.service.js";
 import {admin} from "../db/roles.js";
+import {mirrors, profiles, users} from "../db/tables.js";
 
 export default async function (req, res, next) {
     try {
@@ -16,13 +17,15 @@ export default async function (req, res, next) {
             return next(ApiError.UnavaliableData())
         }
 
+        const mainRoutes = [mirrors, profiles, users];
         const route = req.url.split('/');
-
         const id = parseInt(route[route.length - 1]);
+        const routePath = route[route.length - 2];
+
+        // const isGetAll = req.method ==="GET" && mainRoutes.includes(routePath);
 
         if (requiredTable && id && Number.isInteger(id) && userData.role !== admin) {
             const isUserHasAccess = await apiService.isUserHasAccess(userData.id, requiredTable, id);
-            console.log(isUserHasAccess);
             if (!isUserHasAccess)
                 return next(ApiError.UnavaliableData())
         }

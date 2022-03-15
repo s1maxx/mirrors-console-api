@@ -4,7 +4,6 @@ import ApiError from "../exceptions/api-error.js";
 class ProfileSettingsService{
     async getProfileSettings(id){
         const request = `Select * from profile_settings where id = $1`;
-
         const res = await db.query(request, [id]);
         if(res.rowCount === 0)
             throw ApiError.NotFound();

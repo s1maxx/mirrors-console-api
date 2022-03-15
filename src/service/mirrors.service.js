@@ -1,14 +1,14 @@
 import db from '../db/index.js';
 import ApiError from "../exceptions/api-error.js";
+import {profiles} from "../db/tables.js";
 
 class MirrorsService{
     async getAllMirrors(id){
-        const whereState = id ? `where profile_id = ${id}` : ""
-        const request = `Select * from mirrors ${whereState} Order by id`;
-        const res = await db.query(request);
-        if(res.rowCount === 0)
+        const request = `SELECT m.* FROM mirrors as m join profiles as p on p.profile_owner = profile_id WHERE profile_owner = $1 Order by id`;
+        const mirrors = await db.query(request, [id]);
+        if(mirrors.rowCount === 0)
             throw ApiError.NotFound();
-        return res;
+        return mirrors;
     }
     async getMirror(id){
         const request = `Select * from mirrors where id = $1`;

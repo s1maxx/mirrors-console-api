@@ -4,6 +4,7 @@ import tokenService from "../service/token.service.js";
 export default function (req, res, next){
     try{
         const authorizationHeader = req.headers.authorization;
+
         if(!authorizationHeader)
         {
             return next(ApiError.UnavaliableData())
@@ -12,6 +13,7 @@ export default function (req, res, next){
         const accessToken = authorizationHeader.split(' ')[1];
         if(!accessToken)
         {
+
             return next(ApiError.UnavaliableData())
         }
 

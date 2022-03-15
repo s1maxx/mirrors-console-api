@@ -1,14 +1,14 @@
 import db from '../db/index.js';
 import ApiError from "../exceptions/api-error.js";
+import {profiles} from "../db/tables.js";
 
 class ProfileService{
     async getAllProfiles(id){
-        const whereState = id ? `where profile_id = ${id}` : "";
-        const request = `Select * from profiles ${whereState} Order by id`;
-        const res = await db.query(request);
-        if(res.rowCount === 0)
+        const request = `SELECT m.* FROM profiles as m WHERE profile_owner = $1 Order by id`;
+        const profiles = await db.query(request, [id]);
+        if(profiles.rowCount === 0)
             throw ApiError.NotFound();
-        return res;
+        return profiles;
     }
     async getProfile(id){
         const request = `Select * from profiles where id = $1`;

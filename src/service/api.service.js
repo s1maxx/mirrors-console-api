@@ -5,6 +5,7 @@ import AdminDto from "../dtos/adminModel.js";
 import TokenService from "./token.service.js"
 import tokenService from "./token.service.js";
 import UserDto from "../dtos/adminModel.js";
+import {mirrors, profiles} from "../db/tables.js";
 
 class ApiService{
     async getAllTables(){
@@ -53,8 +54,9 @@ class ApiService{
 
     async isUserHasAccess(userID, table, objectID)
     {
-        const user = await db.query(`Select * from ${table} where id = $1 and profile_id = $2`, [objectID, userID]);
-        // console.log(user)
+        const joinTable = table === profiles ? `` : `join profiles as p on p.profile_owner = profile_id`;
+        const request = `SELECT m.* FROM ${table} as m ${joinTable} WHERE profile_owner = $1 and ${joinTable !== `` ? "p." : ""}id = $2`;
+        const user = await db.query(request, [userID, objectID]);
         if(user.rowCount === 0)
         {
             return null;
@@ -83,12 +85,12 @@ class ApiService{
             throw ApiError.UnavaliableData();
         }
 
-        const user =  await db.query('Select * from admins where id = $1', [userData.id]);
-        const adminDto = new AdminDto(user.rows[0]);
-        const tokens = await tokenService.generateTokens({...adminDto});
+        const user =  await db.query('Select * from users where id = $1', [userData.id]);
+        const userDto = new UserDto(user.rows[0]);
+        const tokens = await tokenService.generateTokens({...userDto});
 
-        await tokenService.saveToken(adminDto.id, tokens.refreshToken);
-        return {...tokens, admin: adminDto};
+        await tokenService.saveToken(userDto.id, tokens.refreshToken);
+        return {...tokens, user: userDto};
     }
 }
 
