@@ -54,7 +54,7 @@ class ApiController {
             const authorizationHeader = req.headers.authorization;
             const accessToken = authorizationHeader.split(' ')[1];
             const userData = await TokenService.validateTokenAccess(accessToken);
-            return res.json({"id":userData.id, "username":userData.username, "role":userData.role});
+            return res.json({"id":userData.id, "uuid":userData.uuid, "role":userData.role});
         }catch (e)
         {
             next(e);
