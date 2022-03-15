@@ -34,6 +34,15 @@ class MirrorsService{
             throw e;
         }
     }
+
+    async getMirrorsLike(uuid){
+        const request = `Select * from mirrors where uuid = $1`;
+        const res = await db.query(request, [uuid]);
+        if(res.rowCount === 0)
+            throw ApiError.NotFound();
+        return res;
+    }
+
     async createMirror(mirror)
     {
         const request = `Insert into mirrors(uuid,name,description,profile_id,teamviewer_id) values($1, $2, $3, $4, $5) returning *`;

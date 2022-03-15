@@ -11,6 +11,15 @@ class MirrorsController {
             next(e);
         }
     }
+    async getMirrorsLike(req, res, next){
+        try{
+            const mirrors = await MirrorsService.getMirrorsLike(req.params.uuid);
+            return res.json(mirrors.rows);
+        }catch(e)
+        {
+            next(e);
+        }
+    }
     async getMirror(req,res,next){
         try{
             const mirror = await MirrorsService.getMirror(req.params.id);

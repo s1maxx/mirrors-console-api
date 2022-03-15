@@ -17,14 +17,11 @@ export default async function (req, res, next) {
             return next(ApiError.UnavaliableData())
         }
 
-        const mainRoutes = [mirrors, profiles, users];
-        const route = req.url.split('/');
-        const id = parseInt(route[route.length - 1]);
-        const routePath = route[route.length - 2];
+        const id = req?.params?.id;
 
         // const isGetAll = req.method ==="GET" && mainRoutes.includes(routePath);
 
-        if (requiredTable && id && Number.isInteger(id) && userData.role !== admin) {
+        if (requiredTable && id && id && userData.role !== admin) {
             const isUserHasAccess = await apiService.isUserHasAccess(userData.id, requiredTable, id);
             if (!isUserHasAccess)
                 return next(ApiError.UnavaliableData())
