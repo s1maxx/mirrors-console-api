@@ -4,6 +4,7 @@ import bcrypt from "bcrypt";
 import AdminDto from "../dtos/adminModel.js";
 import TokenService from "./token.service.js"
 import tokenService from "./token.service.js";
+import UserDto from "../dtos/adminModel.js";
 
 class ApiService{
     async getAllTables(){
@@ -25,26 +26,40 @@ class ApiService{
         return res;
     }
 
-    async login(username, password)
+    async login(username, email = "", password)
     {
-        const user = await db.query("Select * from admins where name = $1", [username]);
+        console.log("username: ", username, "email: ", email, "password: ", password);
+        const searchItem = email !== "" ? "email" : "uuid";
+        const user = await db.query(`Select * from users where ${searchItem} = $1`, [email !== "" ? email : username]);
         if(user.rowCount === 0)
         {
-            throw ApiError.BadRequest(`User with name - ${username} not found`);
+            throw ApiError.BadRequest(`User with ${searchItem} - ${username} not found`);
         }
 
-        const isPassEquals = await bcrypt.compare(password, user.rows[0].password);
+        const isPassEquals = password === user.rows[0].password;
         if(!isPassEquals)
         {
             throw ApiError.BadRequest(`Invalid password`);
         }
 
-        const adminDto = new AdminDto(user.rows[0]);
-        const tokens = await TokenService.generateTokens({...adminDto});
+        const userDto = new UserDto(user.rows[0]);
+        const tokens = await TokenService.generateTokens({...userDto});
 
-        await TokenService.saveToken(adminDto.id, tokens.refreshToken);
+        await TokenService.saveToken(userDto.id, tokens.refreshToken);
 
-        return {...tokens, admin: adminDto};
+        console.log(userDto)
+        return {...tokens, user: userDto};
+    }
+
+    async isUserHasAccess(userID, table, objectID)
+    {
+        const user = await db.query(`Select * from ${table} where id = $1 and profile_id = $2`, [objectID, userID]);
+        // console.log(user)
+        if(user.rowCount === 0)
+        {
+            return null;
+        }
+        return user;
     }
 
     async logout(refreshToken)

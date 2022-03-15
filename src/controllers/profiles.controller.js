@@ -5,7 +5,7 @@ import {validationResult} from "express-validator";
 class ProfileController {
     async getProfiles(req, res, next) {
         try {
-            const profiles = await ProfileService.getAllProfiles();
+            const profiles = await ProfileService.getAllProfiles(req.params.id);
             return res.json(profiles.rows);
         } catch (e) {
             next(e);

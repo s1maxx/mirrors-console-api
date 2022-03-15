@@ -1,9 +1,11 @@
-export default class AdminDto {
+export default class UserDto {
     id;
-    username;
+    uuid;
+    role;
 
     constructor(model) {
         this.id = model.id;
-        this.username = model.name;
+        this.uuid = model.uuid;
+        this.role = model.role;
     }
 }

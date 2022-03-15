@@ -1,9 +1,11 @@
 import {body} from "express-validator";
 
 import profileSnapController from "../../controllers/profile_snaps.controller.js";
+import {admin, mirror_owner} from "../../db/roles.js";
+import {profile_snaps} from "../../db/tables.js";
 
 const profileSnapArrayGet = [
-    {path:'/profile/snap/:id', needAuth:true, function:profileSnapController.getProfileSnap, description: "return profile snap by ID"},
+    {path:'/profile/snap/:id', needAuth:true, requiredRoles:[admin, mirror_owner], table:profile_snaps, function:profileSnapController.getProfileSnap, description: "return profile snap by ID"},
 ]
 
 const profileSnapArrayPost = [
@@ -13,11 +15,11 @@ const profileSnapArrayPost = [
             body('snap_id', 'Invalid snap id').notEmpty().isNumeric(),
             body('profile_id', 'Invalid profile id').notEmpty().isNumeric(),
             body('enable', 'Invalid boolean').isBoolean()
-        ], needAuth:true, function:profileSnapController.addProfileSnap, description: "add profile snap to DB"}
+        ], needAuth:true, requiredRoles:[admin, mirror_owner], table:profile_snaps, function:profileSnapController.addProfileSnap, description: "add profile snap to DB"}
 ]
 
 const profileSnapArrayDelete = [
-    {path:'/profile/snap/:id', needAuth:true, function:profileSnapController.removeProfileSnap, description: "remove profile snap from DB"},
+    {path:'/profile/snap/:id', needAuth:true, requiredRoles:[admin, mirror_owner], table:profile_snaps, function:profileSnapController.removeProfileSnap, description: "remove profile snap from DB"},
 ]
 
 const profileSnapArrayUpdate = [
@@ -27,7 +29,7 @@ const profileSnapArrayUpdate = [
             body('snap_id', 'Invalid snap id').notEmpty().isNumeric(),
             body('profile_id', 'Invalid profile id').notEmpty().isNumeric(),
             body('enable', 'Invalid boolean').isBoolean()
-        ], needAuth:true, function:profileSnapController.updateProfileSnap, description: "update profile snap from DB"}
+        ], needAuth:true, requiredRoles:[admin, mirror_owner], table:profile_snaps, function:profileSnapController.updateProfileSnap, description: "update profile snap from DB"}
 ]
 
 export {profileSnapArrayUpdate, profileSnapArrayPost, profileSnapArrayDelete, profileSnapArrayGet};

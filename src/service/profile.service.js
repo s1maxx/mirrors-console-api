@@ -2,8 +2,9 @@ import db from '../db/index.js';
 import ApiError from "../exceptions/api-error.js";
 
 class ProfileService{
-    async getAllProfiles(){
-        const request = "Select * from profiles Order by id";
+    async getAllProfiles(id){
+        const whereState = id ? `where profile_id = ${id}` : "";
+        const request = `Select * from profiles ${whereState} Order by id`;
         const res = await db.query(request);
         if(res.rowCount === 0)
             throw ApiError.NotFound();

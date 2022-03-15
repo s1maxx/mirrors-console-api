@@ -11,6 +11,25 @@ class TokenService {
         }
     }
 
+    // async getUserByAccessToken(accessToken)
+    // {
+    //     const userData = await db.query("Select * from tokens where token = $1", [accessToken]);
+    //
+    //     if(userData.rowCount === 0)
+    //     {
+    //         throw ApiError.BadRequest("Invalid token");
+    //     }
+    //
+    //     const user = await db.query("Select * from users where id = $1", [userData.rows[0].user_id])
+    //
+    //     if(user.rowCount === 0)
+    //     {
+    //         throw ApiError.BadRequest("Invalid user");
+    //     }
+    //
+    //     return user.rows[0];
+    // }
+
     async saveToken(userID, refreshToken){
         const tokenData = await db.query("Select * from tokens where user_id = $1", [userID]);
         if(tokenData.rowCount > 0)

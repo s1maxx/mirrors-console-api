@@ -3,7 +3,6 @@ import ApiError from "../exceptions/api-error.js";
 import {validationResult} from "express-validator";
 import ApiService from "../service/api.service.js";
 import {routesArrayDelete, routesArrayGet, routesArrayPost, routesArrayUpdate} from "../router/routes/index.js";
-import bcrypt from "bcrypt";
 import TokenService from "../service/token.service.js";
 
 class ApiController {
@@ -55,7 +54,7 @@ class ApiController {
             const authorizationHeader = req.headers.authorization;
             const accessToken = authorizationHeader.split(' ')[1];
             const userData = await TokenService.validateTokenAccess(accessToken);
-            return res.json({"id":userData.id, "username":userData.username});
+            return res.json({"id":userData.id, "username":userData.username, "role":userData.role});
         }catch (e)
         {
             next(e);
@@ -70,8 +69,8 @@ class ApiController {
             {
                 return next(ApiError.BadRequest('Error with login function', errors))
             }
-            const {username, password} = req.body;
-            const userData = await ApiService.login(username, password);
+            const {uuid, email, password} = req.body;
+            const userData = await ApiService.login(uuid, email, password);
             res.cookie('refreshToken', userData.refreshToken, {maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true, sameSite:"none", secure:true});
             return res.json(userData);
         }catch (e)

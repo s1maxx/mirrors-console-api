@@ -2,8 +2,9 @@ import db from '../db/index.js';
 import ApiError from "../exceptions/api-error.js";
 
 class MirrorsService{
-    async getAllMirrors(){
-        const request = "Select * from mirrors Order by id";
+    async getAllMirrors(id){
+        const whereState = id ? `where profile_id = ${id}` : ""
+        const request = `Select * from mirrors ${whereState} Order by id`;
         const res = await db.query(request);
         if(res.rowCount === 0)
             throw ApiError.NotFound();

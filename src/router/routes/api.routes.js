@@ -1,21 +1,23 @@
 import apiController from '../../controllers/api.controller.js'
 import {body} from "express-validator";
+import {admin} from "../../db/roles.js";
 
 const apiArrayGet = [
-    {path:'/', needAuth:true, function:apiController.getApiRoutes, description: "return all endpoints"},
-    {path:'/tables', needAuth:true, function:apiController.getTables, description: "return all tables from DB"},
-    {path:'/table/:name',needAuth:true,function:apiController.getTable, description: "return tables by name from DB"},
-    {path:'/refresh',needAuth:false,function:apiController.refresh, description: "refresh token"},
-    {path:'/me',needAuth:true,function:apiController.getMe, description: "return user"},
+    {path:'/', needAuth:true, requiredRoles:[admin], function:apiController.getApiRoutes, description: "return all endpoints"},
+    {path:'/tables', needAuth:true, requiredRoles:[admin], function:apiController.getTables, description: "return all tables from DB"},
+    {path:'/table/:name',needAuth:true, requiredRoles: [admin], function:apiController.getTable, description: "return tables by name from DB"},
+    {path:'/refresh',needAuth:false, requiredRoles: [], function:apiController.refresh, description: "refresh token"},
+    {path:'/me',needAuth:true, requiredRoles:[], function:apiController.getMe, description: "return user"},
 ]
 
 const apiArrayPost = [
     {path:'/login', validate:[
-        body("username", "Invalid name").notEmpty(),
+        body("username", "Invalid name"),
+            body("email", "Invalid email"),
             body("password", "Invalid password").notEmpty()
-        ], needAuth:false, function:apiController.login, description: "login"},
+        ], needAuth:false, requiredRoles:[], function:apiController.login, description: "login"},
     {path:'/logout', validate:[
-        ], needAuth:true, function:apiController.logout, description: "logout"},
+        ], needAuth:true, requiredRoles:[], function:apiController.logout, description: "logout"},
 ]
 
 const apiArrayDelete = [

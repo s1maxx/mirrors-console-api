@@ -5,7 +5,7 @@ import {validationResult} from "express-validator";
 class MirrorsController {
     async getMirrors(req, res, next) {
         try {
-            const mirrors = await MirrorsService.getAllMirrors();
+            const mirrors = await MirrorsService.getAllMirrors(req.params.id);
             return res.json(mirrors.rows);
         } catch (e) {
             next(e);

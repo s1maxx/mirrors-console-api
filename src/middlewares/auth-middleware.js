@@ -6,22 +6,18 @@ export default function (req, res, next){
         const authorizationHeader = req.headers.authorization;
         if(!authorizationHeader)
         {
-            console.log(1)
             return next(ApiError.UnavaliableData())
         }
 
         const accessToken = authorizationHeader.split(' ')[1];
-        console.log(accessToken, "<-- token")
         if(!accessToken)
         {
-            console.log(2)
             return next(ApiError.UnavaliableData())
         }
 
         const userData = tokenService.validateTokenAccess(accessToken);
         if(!userData)
         {
-            console.log(3)
             return next(ApiError.UnavaliableData())
         }
 
