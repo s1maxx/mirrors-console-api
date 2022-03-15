@@ -5,7 +5,7 @@ import AdminDto from "../dtos/adminModel.js";
 import TokenService from "./token.service.js"
 import tokenService from "./token.service.js";
 import UserDto from "../dtos/adminModel.js";
-import {mirrors, profiles} from "../db/tables.js";
+import {mirrors, profile_snaps, profiles} from "../db/tables.js";
 
 class ApiService{
     async getAllTables(){
@@ -55,7 +55,7 @@ class ApiService{
     async isUserHasAccess(userID, table, objectID)
     {
         const joinTable = table === profiles ? `` : `join profiles as p on p.profile_owner = profile_id`;
-        const request = `SELECT m.* FROM ${table} as m ${joinTable} WHERE profile_owner = $1 and ${joinTable !== `` ? "m." : ""}id = $2`;
+        const request = `SELECT m.* FROM ${table} as m ${joinTable} WHERE profile_owner = $1 and ${joinTable !== `` ? "m." : ""}${table === profile_snaps ? "uuid" : "id"} = $2`;
         const user = await db.query(request, [userID, objectID]);
         if(user.rowCount === 0)
         {
