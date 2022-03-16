@@ -4,8 +4,11 @@ import {profiles} from "../db/tables.js";
 
 class MirrorsService{
     async getAllMirrors(id){
-        const request = `SELECT m.* FROM mirrors as m join profiles as p on p.profile_owner = profile_id WHERE profile_owner = $1 Order by id`;
-        const mirrors = await db.query(request, [id]);
+        let request = "";
+        if(id)
+        request = `SELECT m.* FROM mirrors as m join profiles as p on p.profile_owner = profile_id WHERE profile_owner = $1 Order by id`;
+        else request = `Select * from mirrors Order by id`;
+        const mirrors = await db.query(request, [id ? id : ""]);
         if(mirrors.rowCount === 0)
             throw ApiError.NotFound();
         return mirrors;

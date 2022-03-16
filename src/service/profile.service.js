@@ -4,8 +4,11 @@ import {profiles} from "../db/tables.js";
 
 class ProfileService{
     async getAllProfiles(id){
-        const request = `SELECT m.* FROM profiles as m WHERE profile_owner = $1 Order by id`;
-        const profiles = await db.query(request, [id]);
+        let request = "";
+        if(id)
+            request = `SELECT m.* FROM profiles WHERE profile_owner = $1 Order by id`;
+        else request = `Select * from profiles Order by id`;
+        const profiles = await db.query(request, [id ? id : ""]);
         if(profiles.rowCount === 0)
             throw ApiError.NotFound();
         return profiles;
