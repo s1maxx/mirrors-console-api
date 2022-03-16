@@ -26,6 +26,25 @@ class ProfileSnapsController {
             next(e);
         }
     }
+    async addProfileSnaps(req, res, next)
+    {
+        try{
+            const errors = validationResult(req);
+            if(!errors.isEmpty())
+            {
+                return next(ApiError.BadRequest('Error with create_profile-snaps function', errors))
+            }
+            let arrayRes = [];
+            for (let i = 0; i < req.body.length - 1; i++)
+            {
+                const profileSnap = await ProfileSnapService.createProfileSnap(req.body);
+                arrayRes.push(profileSnap.rows[0]);
+            }
+            return res.json(arrayRes);
+        }catch (e) {
+            next(e);
+        }
+    }
     async removeProfileSnap(req,res,next){
         try{
             await ProfileSnapService.removeProfileSnap(req.params.id);
@@ -40,10 +59,30 @@ class ProfileSnapsController {
             const errors = validationResult(req);
             if(!errors.isEmpty())
             {
-                return next(ApiError.BadRequest('Error with update_profile-snap function', errors))
+                return next(ApiError.BadRequest('Error with update_profile-snaps function', errors))
             }
             const updatedProfileSnap = await ProfileSnapService.updateProfileSnap(req.body, req.params.id);
             return res.json(updatedProfileSnap.rows[0])
+        }catch (e)
+        {
+            next(e);
+        }
+    }
+    async updateProfileSnaps(req, res, next){
+        try{
+            const errors = validationResult(req);
+            if(!errors.isEmpty())
+            {
+                return next(ApiError.BadRequest('Error with update_profile-snap function', errors))
+            }
+            let arrayRes = [];
+            for (let i = 0; i < req.body.length - 1; i++)
+            {
+                const updatedProfileSnap = await ProfileSnapService.updateProfileSnap(req.body, req.params.id);
+                arrayRes.push(updatedProfileSnap.rows[0]);
+            }
+
+            return res.json(arrayRes)
         }catch (e)
         {
             next(e);
