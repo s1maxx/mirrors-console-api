@@ -41,13 +41,12 @@ class ProfileSettingsService{
             for (const [key, value] of Object.entries(x)) {
                 if(key === "profile_id")
                     first.push(parseInt(value))
-                else if(key === "name") second.push(value)
+                else if(key === "name") second.push(`'${value}'`)
                 else if(key === "enable") third.push(value);
             }
         }
 
-        const request = `Insert into profile_settings(profile_id,name,enable) select * from unnest(array[${[...first]}], array[${[...second]}], array[${[...third]}]) returning *`;
-        request.replace('"',"'");
+        let request = `Insert into profile_settings(profile_id,name,enable) select * from unnest(array[${[...first]}], array[${[...second]}], array[${[...third]}]) returning *`;
 
         const res = await db.query(request);
 
