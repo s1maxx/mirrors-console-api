@@ -35,7 +35,7 @@ class ProfileSnapsController {
                 return next(ApiError.BadRequest('Error with create_profile-snaps function', errors))
             }
             let arrayRes = [];
-            for (let i = 0; i < req.body.length - 1; i++)
+            for (let i = 0; i < req.body.length; i++)
             {
                 const profileSnap = await ProfileSnapService.createProfileSnap(req.body[i]);
                 arrayRes.push(profileSnap.rows[0]);
@@ -76,7 +76,7 @@ class ProfileSnapsController {
                 return next(ApiError.BadRequest('Error with update_profile-snap function', errors))
             }
             let arrayRes = [];
-            for (let i = 0; i < req.body.length - 1; i++)
+            for (let i = 0; i < req.body.length; i++)
             {
                 const updatedProfileSnap = await ProfileSnapService.updateProfileSnap(req.body[i], req.body[i].id);
                 arrayRes.push(updatedProfileSnap.rows[0]);
