@@ -18,11 +18,11 @@ const mirrorArrayPost = [
             body('description', 'Invalid description'),
             body('profile_id', 'Invalid profile id').notEmpty().isNumeric(),
             body('teamviewer_id', 'Invalid teamviewer id')
-        ], needAuth:true, table:mirrors, requiredRoles:[], function:mirrorsController.addMirror, description: "add mirror to DB"},
+        ], needAuth:true, table:mirrors, requiredRoles:[admin], function:mirrorsController.addMirror, description: "add mirror to DB"},
 ]
 
 const mirrorArrayDelete = [
-    {path:'/mirror/:id', needAuth:true, table:mirrors, requiredRoles:[admin, mirror_owner], function:mirrorsController.removeMirror, description: "remove mirror from DB"},
+    {path:'/mirror/:id', needAuth:true, table:mirrors, requiredRoles:[admin], function:mirrorsController.removeMirror, description: "remove mirror from DB"},
 ]
 
 const mirrorArrayUpdate = [
@@ -32,7 +32,7 @@ const mirrorArrayUpdate = [
             body('description', 'Invalid description'),
             body('profile_id', 'Invalid profile id').notEmpty().isNumeric(),
             body('teamviewer_id', 'Invalid teamviewer id')
-        ], needAuth:true, table:mirrors, requiredRoles:[admin, mirror_owner], function:mirrorsController.updateMirror, description: "update user from DB"},
+        ], needAuth:true, table:mirrors, requiredRoles:[admin], function:mirrorsController.updateMirror, description: "update user from DB"},
 ]
 
 export {mirrorArrayGet, mirrorArrayPost, mirrorArrayUpdate, mirrorArrayDelete};

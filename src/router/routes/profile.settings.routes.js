@@ -13,7 +13,13 @@ const profileSettingsArrayPost = [
             body('name', 'Invalid name'),
             body('profile_id', 'Invalid profile id').notEmpty().isNumeric(),
             body('enable', 'Invalid boolean').isBoolean()
-        ], needAuth:true, requiredRoles:[admin, mirror_owner], table:profile_settings, function:profileSettingsController.addProfileSettings, description: "add profile settings to DB"}
+        ], needAuth:true, requiredRoles:[admin, mirror_owner], table:profile_settings, function:profileSettingsController.addProfileSettings, description: "add profile settings to DB"},
+    {path:'/profile/settings/add', validate: [
+        body().isArray,
+            body('*.name', 'Invalid name'),
+            body('*.profile_id', 'Invalid profile id').notEmpty().isNumeric(),
+            body('*.enable', 'Invalid boolean').isBoolean()
+        ], needAuth:true, requiredRoles:[admin, mirror_owner], table:profile_settings, function:profileSettingsController.addProfileSettingsArray, description: "add profile array settings to DB"}
 ]
 
 const profileSettingsArrayDelete = [
@@ -25,7 +31,13 @@ const profileSettingsArrayUpdate = [
             body('name', 'Invalid name'),
             body('profile_id', 'Invalid profile id').notEmpty().isNumeric(),
             body('enable', 'Invalid boolean').isBoolean()
-        ], needAuth:true, requiredRoles:[admin, mirror_owner], table:profile_settings, function:profileSettingsController.updateProfileSettings, description: "update profile settings from DB"}
+        ], needAuth:true, requiredRoles:[admin, mirror_owner], table:profile_settings, function:profileSettingsController.updateProfileSettings, description: "update profile settings from DB"},
+    {path:'/profile/settings', validate: [
+            body().isArray,
+            body('*.name', 'Invalid name'),
+            body('*.profile_id', 'Invalid profile id').notEmpty().isNumeric(),
+            body('*.enable', 'Invalid boolean').isBoolean()
+        ], needAuth:true, requiredRoles:[admin, mirror_owner], table:profile_settings, function:profileSettingsController.updateProfileSettingsArray, description: "update profile array settings to DB"}
 ]
 
 export {profileSettingsArrayUpdate, profileSettingsArrayPost, profileSettingsArrayDelete, profileSettingsArrayGet};
