@@ -6,6 +6,7 @@ import {profile_settings} from "../../db/tables.js";
 
 const profileSettingsArrayGet = [
     {path:'/profile/settings/:id', requiredRoles:[admin,mirror_owner], table:profile_settings, needAuth:true, function:profileSettingsController.getProfileSettings, description: "return profile settings by ID"},
+    {path:'/profile/settings-array/:id', requiredRoles:[admin,mirror_owner], table:profile_settings, needAuth:true, function:profileSettingsController.getProfileSettingsArray, description: "return profile settings array by ID"},
 ]
 
 const profileSettingsArrayPost = [

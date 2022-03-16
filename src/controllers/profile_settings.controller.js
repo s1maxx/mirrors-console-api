@@ -12,6 +12,15 @@ class ProfileSettingsController {
             next(e);
         }
     }
+    async getProfileSettingsArray(req,res,next){
+        try{
+            const profile = await ProfileSettingsService.getProfileSettingsArray(req.params.id);
+            return res.json(profile.rows);
+        }catch (e)
+        {
+            next(e);
+        }
+    }
     async addProfileSettings(req,res,next){
         try{
             const errors = validationResult(req);

@@ -9,6 +9,13 @@ class ProfileSettingsService{
             throw ApiError.NotFound();
         return res;
     }
+    async getProfileSettingsArray(id){
+        const request = `Select * from profile_settings where profile_id = $1`;
+        const res = await db.query(request, [id]);
+        if(res.rowCount === 0)
+            throw ApiError.NotFound();
+        return res;
+    }
     async removeProfileSettings(id){
         const request = `Delete from profile_settings where id = $1`;
 
