@@ -28,7 +28,7 @@ const profileArrayUpdate = [
             body('name', 'Invalid name'),
             body('description', 'Invalid description'),
             body('profile_owner', 'Invalid profile owner').notEmpty().isNumeric(),
-            body('version', 'Invalid version')
+            body('version', 'Invalid version').isNumeric()
         ], needAuth:true, requiredRoles:[admin, mirror_owner], table:profiles, function:profilesController.updateProfile, description: "update profile from DB"}
 ]
 
