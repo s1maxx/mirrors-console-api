@@ -8,7 +8,7 @@ class ProfileService{
         let profiles = null;
         if(id)
         {
-            request = `SELECT m.* FROM profiles WHERE profile_owner = $1 Order by id`;
+            request = `SELECT * FROM profiles WHERE profile_owner = $1 Order by id`;
             profiles = await db.query(request, [id]);
         }
         else{
