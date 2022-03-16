@@ -47,6 +47,7 @@ class ProfileSettingsService{
         }
 
         const request = `Insert into profile_settings(profile_id,name,enable) select * from unnest(array[${[...first]}], array[${[...second]}], array[${[...third]}]) returning *`;
+        request.replace('"',"'");
 
         const res = await db.query(request);
 
