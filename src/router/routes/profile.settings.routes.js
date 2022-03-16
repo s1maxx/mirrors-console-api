@@ -34,6 +34,7 @@ const profileSettingsArrayUpdate = [
         ], needAuth:true, requiredRoles:[admin, mirror_owner], table:profile_settings, function:profileSettingsController.updateProfileSettings, description: "update profile settings from DB"},
     {path:'/profile/settings', validate: [
             body().isArray,
+            body('*.id', "Invalid id").notEmpty().isNumeric(),
             body('*.name', 'Invalid name'),
             body('*.profile_id', 'Invalid profile id').notEmpty().isNumeric(),
             body('*.enable', 'Invalid boolean').isBoolean()
