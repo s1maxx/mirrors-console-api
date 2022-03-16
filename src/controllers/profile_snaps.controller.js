@@ -37,7 +37,7 @@ class ProfileSnapsController {
             let arrayRes = [];
             for (let i = 0; i < req.body.length - 1; i++)
             {
-                const profileSnap = await ProfileSnapService.createProfileSnap(req.body);
+                const profileSnap = await ProfileSnapService.createProfileSnap(req.body[i]);
                 arrayRes.push(profileSnap.rows[0]);
             }
             return res.json(arrayRes);
@@ -78,7 +78,7 @@ class ProfileSnapsController {
             let arrayRes = [];
             for (let i = 0; i < req.body.length - 1; i++)
             {
-                const updatedProfileSnap = await ProfileSnapService.updateProfileSnap(req.body, req.params.id);
+                const updatedProfileSnap = await ProfileSnapService.updateProfileSnap(req.body[i], req.params.id);
                 arrayRes.push(updatedProfileSnap.rows[0]);
             }
 
