@@ -52,12 +52,17 @@ class ApiService{
         return {...tokens, user: userDto};
     }
 
-    async isUserHasAccess(userID, table, objectID)
+    async isUserHasAccess(userID, table, objectID, route = "")
     {
         const joinTable = table === profiles ? `` : `join profiles as p on p.profile_owner = profile_id`;
         const request = `SELECT m.* FROM ${table} as m ${joinTable} WHERE profile_owner = $1 and ${joinTable !== `` ? "m." : ""}${table === profile_snaps ? "uuid" : "id"} = $2`;
         const user = await db.query(request, [userID, objectID]);
-        const secondReq = await db.query(`Select * from ${table} where ${table === profile_snaps ? "uuid" : "id"} = $1`, [objectID]);
+
+        let secondReq = null;
+        if(route === mirrors && parseInt(userID) === parseInt(objectID))
+            secondReq = await db.query(`Select m.* from ${table} as m ${joinTable} where profile_owner = $1`, [objectID]);
+        else secondReq = await db.query(`Select * from ${table} where ${table === profile_snaps ? "uuid" : "id"} = $1`, [objectID]);
+
         if(user.rowCount === 0 && secondReq.rowCount !== 0)
         {
             return null;

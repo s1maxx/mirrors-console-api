@@ -21,8 +21,10 @@ export default async function (req, res, next) {
 
         // const isGetAll = req.method ==="GET" && mainRoutes.includes(routePath);
 
+        const splited = req.url.split('/');
+
         if (requiredTable && id && id && userData.role !== admin) {
-            const isUserHasAccess = await apiService.isUserHasAccess(userData.id, requiredTable, id);
+            const isUserHasAccess = await apiService.isUserHasAccess(userData.id, requiredTable, id, splited[splited.length - 2] === mirrors ? mirrors : "");
             if (!isUserHasAccess)
                 return next(ApiError.UnavaliableData())
         }
