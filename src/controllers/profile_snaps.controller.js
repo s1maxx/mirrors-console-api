@@ -78,7 +78,7 @@ class ProfileSnapsController {
             let arrayRes = [];
             for (let i = 0; i < req.body.length - 1; i++)
             {
-                const updatedProfileSnap = await ProfileSnapService.updateProfileSnap(req.body[i], req.params.id);
+                const updatedProfileSnap = await ProfileSnapService.updateProfileSnap(req.body[i], req.body[i].id);
                 arrayRes.push(updatedProfileSnap.rows[0]);
             }
 

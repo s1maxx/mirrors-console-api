@@ -53,6 +53,8 @@ class ProfileSnapsService{
             updateProfileSnap.enable,
             profileSID]);
 
+        console.log(res)
+
         if(res.rowCount === 0)
             throw ApiError.ServerException();
         return res;
