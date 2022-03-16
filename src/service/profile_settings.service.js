@@ -34,12 +34,21 @@ class ProfileSettingsService{
     }
     async createProfileSettings(profileSettings)
     {
-        const request = `Insert into profile_settings(profile_id,name,enable) values($1, $2, $3) returning *`;
+        const first = []; const second = []; const third = [];
 
-        const res = await db.query(request, [
-            profileSettings.profile_id,
-            profileSettings.name,
-            profileSettings.enable]);
+        for (const [key, value] of Object.entries(profileSettings)) {
+            let x = value;
+            for (const [key, value] of Object.entries(x)) {
+                if(key === "profile_id")
+                    first.push(parseInt(value))
+                else if(key === "name") second.push(value.toString())
+                else if(key === "enable") third.push(value);
+            }
+        }
+
+        const request = `Insert into profile_settings(profile_id,name,enable) select * from unnest(array[${[...first]}], array[${[...second]}], array[${[...third]}]) returning *`;
+
+        const res = await db.query(request);
 
         if(res.rowCount === 0)
             throw ApiError.ServerException();

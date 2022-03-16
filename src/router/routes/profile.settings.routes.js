@@ -15,7 +15,7 @@ const profileSettingsArrayPost = [
             body('profile_id', 'Invalid profile id').notEmpty().isNumeric(),
             body('enable', 'Invalid boolean').isBoolean()
         ], needAuth:true, requiredRoles:[admin, mirror_owner], table:profile_settings, function:profileSettingsController.addProfileSettings, description: "add profile settings to DB"},
-    {path:'/profile-settings/add', validate: [
+    {path:'/an-profile-settings/add', validate: [
         body().isArray,
             body('*.name', 'Invalid name'),
             body('*.profile_id', 'Invalid profile id').notEmpty().isNumeric(),
@@ -33,8 +33,8 @@ const profileSettingsArrayUpdate = [
             body('profile_id', 'Invalid profile id').notEmpty().isNumeric(),
             body('enable', 'Invalid boolean').isBoolean()
         ], needAuth:true, requiredRoles:[admin, mirror_owner], table:profile_settings, function:profileSettingsController.updateProfileSettings, description: "update profile settings from DB"},
-    {path:'/profile-settings/upd', validate: [
-            body().isArray,
+    {path:'/an-profile-settings/', validate: [
+        body().isArray(),
             body('*.id', "Invalid id").notEmpty().isNumeric(),
             body('*.name', 'Invalid name'),
             body('*.profile_id', 'Invalid profile id').notEmpty().isNumeric(),

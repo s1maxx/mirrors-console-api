@@ -26,7 +26,7 @@ class ProfileSettingsController {
             const errors = validationResult(req);
             if(!errors.isEmpty())
             {
-                return next(ApiError.BadRequest('Error with create_profile-settings function', errors))
+                return next(ApiError.BadRequest('Error with create_settings function', errors))
             }
             const profileSettings = await ProfileSettingsService.createProfileSettings(req.body);
             return res.json(profileSettings.rows[0]);
@@ -40,15 +40,11 @@ class ProfileSettingsController {
             const errors = validationResult(req);
             if(!errors.isEmpty())
             {
-                return next(ApiError.BadRequest('Error with create_profile-array-settings function', errors))
+                return next(ApiError.BadRequest('Error with create_array-settings function', errors))
             }
-            const result = [];
-            for (let i = 0; i < req.body.length; i++)
-            {
-                const profileSettings = await ProfileSettingsService.createProfileSettings(req.body[i]);
-                result.push(profileSettings);
-            }
-            return res.json(result.rows);
+            const profileSettings = await ProfileSettingsService.createProfileSettings(req.body);
+
+            return res.json(profileSettings.rows);
         }catch (e)
         {
             next(e);
@@ -65,10 +61,11 @@ class ProfileSettingsController {
     }
     async updateProfileSettings(req, res, next){
         try{
+            console.log(req)
             const errors = validationResult(req);
             if(!errors.isEmpty())
             {
-                return next(ApiError.BadRequest('Error with update_profile-settings function', errors))
+                return next(ApiError.BadRequest('Error with update_settings function', errors))
             }
             const updatedProfileSettings = await ProfileSettingsService.updateProfileSettings(req.body, req.params.id);
             return res.json(updatedProfileSettings.rows[0])
@@ -82,15 +79,15 @@ class ProfileSettingsController {
             const errors = validationResult(req);
             if(!errors.isEmpty())
             {
-                return next(ApiError.BadRequest('Error with update_profile-array-settings function', errors))
+                return next(ApiError.BadRequest('Error with update_array-settings function', errors))
             }
             const result = [];
             for (let i = 0; i < req.body.length; i++)
             {
                 const profileSettings = await ProfileSettingsService.updateProfileSettings(req.body[i], req.body[i].id);
-                result.push(profileSettings);
+                result.push(profileSettings.rows);
             }
-            return res.json(result.rows);
+            return res.json(result);
         }catch (e)
         {
             next(e);
