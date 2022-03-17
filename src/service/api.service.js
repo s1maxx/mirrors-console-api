@@ -5,7 +5,7 @@ import AdminDto from "../dtos/adminModel.js";
 import TokenService from "./token.service.js"
 import tokenService from "./token.service.js";
 import UserDto from "../dtos/adminModel.js";
-import {mirrors, profile_snaps, profiles} from "../db/tables.js";
+import {mirrors, profile_snaps, profile_videos, profiles} from "../db/tables.js";
 
 class ApiService{
     async getAllTables(){
@@ -54,14 +54,15 @@ class ApiService{
 
     async isUserHasAccess(userID, table, objectID, route = "")
     {
-        const joinTable = table === profiles ? `` : `join profiles as p on p.profile_owner = profile_id`;
-        const request = `SELECT m.* FROM ${table} as m ${joinTable} WHERE profile_owner = $1 and ${joinTable !== `` ? "m." : ""}${table === profile_snaps ? "uuid" : "id"} = $2`;
-        const user = await db.query(request, [userID, objectID]);
+        const joinTable = table === profiles ? `` : `join profiles as p on profile_id = p.id`;
+        const request = `SELECT m.* FROM ${table} as m ${joinTable} WHERE profile_owner = $1 and ${joinTable !== `` ? "m." : ""}${table === profile_snaps ? "uuid" : "id"} = $2}`;
 
-        let secondReq = null;
-        if(route === mirrors && parseInt(userID) === parseInt(objectID))
-            secondReq = await db.query(`Select m.* from ${table} as m ${joinTable} where profile_owner = $1`, [objectID]);
-        else secondReq = await db.query(`Select * from ${table} where ${table === profile_snaps ? "uuid" : "id"} = $1`, [objectID]);
+        const params = [userID, objectID];
+        const user = await db.query(request, [...params]);
+
+        const seqRequest =`Select * from ${table} where ${table === profile_snaps ? "uuid" : "id"} = $1`;
+
+        const secondReq = await db.query(seqRequest, [objectID]);
 
         if(user.rowCount === 0 && secondReq.rowCount !== 0)
         {

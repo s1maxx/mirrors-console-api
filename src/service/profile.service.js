@@ -61,6 +61,8 @@ class ProfileService{
     {
         const request = `Update profiles set name = $1, description = $2, profile_owner = $3, version = $4 where id = $5 returning *`;
 
+        console.log(updateProfile)
+
         const res = await db.query(request, [
             updateProfile.name,
             updateProfile.description,

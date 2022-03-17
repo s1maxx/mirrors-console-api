@@ -43,11 +43,11 @@ const routesArrayDelete = [
 const routesArrayUpdate = [
     ...apiArrayUpdate,
     ...userArrayUpdate,
+    ...profileSettingsArrayUpdate,
     ...profileArrayUpdate,
     ...mirrorArrayUpdate,
     ...profileVideoArrayUpdate,
     ...profileSnapArrayUpdate,
-    ...profileSettingsArrayUpdate,
     ...snapArrayUpdate
 ]
 

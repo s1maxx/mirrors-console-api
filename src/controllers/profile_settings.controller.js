@@ -61,7 +61,6 @@ class ProfileSettingsController {
     }
     async updateProfileSettings(req, res, next){
         try{
-            console.log(req)
             const errors = validationResult(req);
             if(!errors.isEmpty())
             {

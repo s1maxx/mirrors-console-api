@@ -6,13 +6,13 @@ import {profile_videos} from "../../db/tables.js";
 
 const profileVideoArrayGet = [
     {path:'/profile/video/:id', requiredRoles:[admin, mirror_owner], table:profile_videos, needAuth:true, function:profileVideoController.getProfileVideo, description: "return profile video by ID"},
+    {path:'/profile/videos/:id', requiredRoles:[admin, mirror_owner], table:profile_videos, needAuth:true, function:profileVideoController.getProfileVideos, description: "return profile video array by user ID"},
 ]
 
 const profileVideoArrayPost = [
     {path:'/profile/video/add', validate: [
-            body('name', 'Invalid name'),
+        body('file', 'Invalid file').notEmpty(),
             body('description', 'Invalid description'),
-            body('file_location', 'Invalid file location'),
             body('video_sequence', 'Invalid video sequence'),
             body('profile_id', 'Invalid profile id').notEmpty().isNumeric(),
             body('enable', 'Invalid boolean').isBoolean()
@@ -25,9 +25,7 @@ const profileVideoArrayDelete = [
 
 const profileVideoArrayUpdate = [
     {path:'/profile/video/:id', validate: [
-            body('name', 'Invalid name'),
             body('description', 'Invalid description'),
-            body('file_location', 'Invalid file location'),
             body('video_sequence', 'Invalid video sequence'),
             body('profile_id', 'Invalid profile id').notEmpty().isNumeric(),
             body('enable', 'Invalid boolean').isBoolean()

@@ -2,7 +2,7 @@ import ApiError from "../exceptions/api-error.js";
 import tokenService from "../service/token.service.js";
 import apiService from "../service/api.service.js";
 import {admin} from "../db/roles.js";
-import {mirrors, profiles, users} from "../db/tables.js";
+import {mirrors, profile_videos} from "../db/tables.js";
 
 export default async function (req, res, next) {
     try {
@@ -19,12 +19,17 @@ export default async function (req, res, next) {
 
         const id = req?.params?.id;
 
-        // const isGetAll = req.method ==="GET" && mainRoutes.includes(routePath);
-
         const splited = req.url.split('/');
 
-        if (requiredTable && id && id && userData.role !== admin) {
-            const isUserHasAccess = await apiService.isUserHasAccess(userData.id, requiredTable, id, splited[splited.length - 2] === mirrors ? mirrors : "");
+        const route = splited[splited.length - 2];
+
+        const isUserRequestAllHisData = ((route === mirrors && parseInt(userData.id) === parseInt(id)) || (route === profile_videos && parseInt(userData.id) === parseInt(id)));
+
+        if (requiredTable && id && id && userData.role !== admin && (!isUserRequestAllHisData && userData.id === id)) {
+            const isUserHasAccess = await apiService.isUserHasAccess(
+                userData.id,
+                requiredTable,
+                id)
             if (!isUserHasAccess)
                 return next(ApiError.UnavaliableData())
         }
