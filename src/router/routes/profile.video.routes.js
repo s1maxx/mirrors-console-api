@@ -7,7 +7,7 @@ import {profile_videos} from "../../db/tables.js";
 const profileVideoArrayGet = [
     {path:'/profile/video/:id', requiredRoles:[admin, mirror_owner], table:profile_videos, needAuth:true, function:profileVideoController.getProfileVideo, description: "return profile video by ID"},
     {path:'/profile/videos/:id', requiredRoles:[admin, mirror_owner], table:profile_videos, needAuth:true, function:profileVideoController.getProfileVideos, description: "return profile video array by user ID"},
-    {path:'/an-profiles/videos/:id', requiredRoles:[admin, mirror_owner], table:profile_videos, needAuth:true, function:profileVideoController.getProfilesVideos, description: "return profile video array by user ID"},
+    {path:'/an-profiles-videos/:id', requiredRoles:[admin, mirror_owner], table:profile_videos, needAuth:true, function:profileVideoController.getProfilesVideos, description: "return profile video array by user ID"},
 ]
 
 const profileVideoArrayPost = [
