@@ -34,7 +34,7 @@ class ProfileVideosController {
     }
     async getProfilesVideos(req,res,next){
         try{
-            const profile = await ProfileVideoService.getProfileVideos();
+            const profile = await ProfileVideoService.getProfilesVideos();
             if(profile.rows.length === 0)
                 return next(ApiError.NotFound());
 

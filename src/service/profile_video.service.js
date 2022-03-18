@@ -11,15 +11,18 @@ class ProfileVideoService{
         return res;
     }
     async getProfileVideos(id){
-        let request = "";
-        if(id)
-        request = `Select m.* from profile_videos as m join profiles as p on profile_id = p.id where profile_owner = $1`;
-        else request = `Select * from profile_videos Order by id`;
+        const request = `Select m.* from profile_videos as m join profiles as p on profile_id = p.id where profile_owner = $1`;
 
-        let res = null;
-        if(id)
-        res = await db.query(request, [id]);
-        else res = await db.query(request);
+        const res = await db.query(request, [id]);
+
+        if(res.rowCount === 0)
+            throw ApiError.NotFound();
+        return res;
+    }
+    async getProfilesVideos(){
+        const request = `Select * from profile_videos Order by id`;
+
+        const res = await db.query(request);
 
         if(res.rowCount === 0)
             throw ApiError.NotFound();
