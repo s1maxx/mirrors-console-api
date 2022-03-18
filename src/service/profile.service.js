@@ -2,63 +2,76 @@ import db from '../db/index.js';
 import ApiError from "../exceptions/api-error.js";
 import {profiles} from "../db/tables.js";
 
-class ProfileService{
-    async getAllProfiles(id){
+class ProfileService {
+    async getAllProfiles(id) {
         let request = "";
         let profiles = null;
-        if(id)
-        {
+        if (id) {
             request = `SELECT * FROM profiles WHERE profile_owner = $1 Order by id`;
             profiles = await db.query(request, [id]);
-        }
-        else{
+        } else {
             request = `Select * from profiles Order by id`;
             profiles = await db.query(request);
         }
-        if(!profiles || profiles.rowCount === 0)
+        if (!profiles || profiles.rowCount === 0)
             throw ApiError.NotFound();
         return profiles;
     }
-    async getProfile(id){
+
+    async getProfile(id) {
         const request = `Select * from profiles where id = $1`;
 
         const res = await db.query(request, [id]);
-        if(res.rowCount === 0)
+        if (res.rowCount === 0)
             throw ApiError.NotFound();
         return res;
     }
-    async getProfileMirrors(id){
-        const profile = await this.getProfile(id);
-        if(profile.rowCount === 0)
+
+    async getProfilesMirrors() {
+        const profiles = await this.getAllProfiles();
+        if (profiles.rowCount === 0)
+            throw ApiError.NotFound();
+
+        for(let i = 0; i < profiles.rowCount; i++)
+        {
+            const request = `Select m.* from mirrors as m join profiles as p on profile_id = p.id where p.id = $1`;
+            const res = await db.query(request, [profiles.rows[i].id]);
+
+            profiles.rows[i]["mirrors"] = res.rows;
+        }
+
+        return profiles.rows;
+    }
+
+    async getProfileMirrors(id) {
+        const profiles = await this.getProfile(id);
+        if (profiles.rowCount === 0)
             throw ApiError.NotFound();
 
         const request = `Select m.* from mirrors as m join profiles as p on profile_id = p.id where p.id = $1`;
         const res = await db.query(request, [id]);
 
-        profile.rows[0]["mirrors"] = res.rows;
+        profiles.rows[0]["mirrors"] = res.rows;
 
-        if(res.rowCount === 0)
-            throw ApiError.NotFound();
-        return profile;
+        return profiles;
     }
-    async removeProfile(id){
+
+    async removeProfile(id) {
         const request = `Delete from profiles where id = $1`;
 
-        try{
+        try {
             await this.getProfile(id);
             const res = await db.query(request, [id]);
 
-            if(res.rowCount === 0)
+            if (res.rowCount === 0)
                 throw ApiError.ServerException();
             return res;
-        }
-        catch (e)
-        {
+        } catch (e) {
             throw e;
         }
     }
-    async createProfile(profile)
-    {
+
+    async createProfile(profile) {
         const request = `Insert into profiles(name,description,profile_owner,version) values($1, $2, $3, $4) returning *`;
 
         const res = await db.query(request, [
@@ -67,12 +80,12 @@ class ProfileService{
             profile.profile_owner,
             profile.version]);
 
-        if(res.rowCount === 0)
+        if (res.rowCount === 0)
             throw ApiError.ServerException();
         return res;
     }
-    async updateProfile(updateProfile, profileID)
-    {
+
+    async updateProfile(updateProfile, profileID) {
         const request = `Update profiles set name = $1, description = $2, profile_owner = $3, version = $4 where id = $5 returning *`;
 
         console.log(updateProfile)
@@ -84,7 +97,7 @@ class ProfileService{
             updateProfile.version,
             profileID]);
 
-        if(res.rowCount === 0)
+        if (res.rowCount === 0)
             throw ApiError.ServerException();
         return res;
     }
