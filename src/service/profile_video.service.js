@@ -16,7 +16,11 @@ class ProfileVideoService{
         request = `Select m.* from profile_videos as m join profiles as p on profile_id = p.id where profile_owner = $1`;
         else request = `Select * from profile_videos Order by id`;
 
-        const res = await db.query(request, [id]);
+        let res = null;
+        if(id)
+        res = await db.query(request, [id]);
+        else res = await db.query(request);
+
         if(res.rowCount === 0)
             throw ApiError.NotFound();
         return res;
