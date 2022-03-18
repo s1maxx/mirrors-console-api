@@ -22,7 +22,7 @@ class ProfileController {
     }
     async getProfilesMirrors(req,res,next){
         try{
-            const profiles = await ProfileService.getProfilesMirrors();
+            const profiles = await ProfileService.getProfilesMirrors(req.params.id);
             return res.json(profiles);
         }catch (e)
         {

@@ -27,8 +27,8 @@ class ProfileService {
         return res;
     }
 
-    async getProfilesMirrors() {
-        const profiles = await this.getAllProfiles();
+    async getProfilesMirrors(id) {
+        const profiles = await this.getAllProfiles(id);
         if (profiles.rowCount === 0)
             throw ApiError.NotFound();
 
