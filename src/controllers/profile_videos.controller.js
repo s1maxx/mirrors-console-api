@@ -32,6 +32,18 @@ class ProfileVideosController {
             next(e);
         }
     }
+    async getProfilesVideos(req,res,next){
+        try{
+            const profile = await ProfileVideoService.getProfileVideos();
+            if(profile.rows.length === 0)
+                return next(ApiError.NotFound());
+
+            return res.json(profile.rows);
+        }catch (e)
+        {
+            next(e);
+        }
+    }
     async addProfileVideo(req,res,next){
         try{
             const errors = validationResult(req);

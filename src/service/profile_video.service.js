@@ -11,7 +11,10 @@ class ProfileVideoService{
         return res;
     }
     async getProfileVideos(id){
-        const request = `Select m.* from profile_videos as m join profiles as p on profile_id = p.id where profile_owner = $1`;
+        let request = "";
+        if(id)
+        request = `Select m.* from profile_videos as m join profiles as p on profile_id = p.id where profile_owner = $1`;
+        else request = `Select * from profile_videos Order by id`;
 
         const res = await db.query(request, [id]);
         if(res.rowCount === 0)
