@@ -53,9 +53,9 @@ class ProfileVideoService{
             parseInt(profileVideo.profile_id[0]),
             profileVideo.description[0],
             path,
-            profileVideo.video_sequence[0],
+            parseInt(profileVideo.video_sequence[0]),
             profileVideo.enable[0],
-            parseInt(profileVideo.nameid[0])]);
+            profileVideo.nameid[0]]);
 
         if(res.rowCount === 0)
             throw ApiError.ServerException();
