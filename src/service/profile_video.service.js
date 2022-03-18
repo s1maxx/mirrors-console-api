@@ -36,7 +36,7 @@ class ProfileVideoService{
     }
     async createProfileVideo(profileVideo, path, key)
     {
-        const request = `Insert into profile_videos(name,profile_id,description,file_location,video_sequence,enable) values($1, $2, $3, $4, $5, $6) returning *`;
+        const request = `Insert into profile_videos(name,profile_id,description,file_location,video_sequence,enable, nameId) values($1, $2, $3, $4, $5, $6, $7) returning *`;
 
         const res = await db.query(request, [
             key,
@@ -44,7 +44,8 @@ class ProfileVideoService{
             profileVideo.description[0],
             path,
             profileVideo.video_sequence[0],
-            profileVideo.enable[0]]);
+            profileVideo.enable[0],
+            profileVideo.nameId[0]]);
 
         if(res.rowCount === 0)
             throw ApiError.ServerException();
@@ -52,13 +53,14 @@ class ProfileVideoService{
     }
     async updateProfileVideo(updateProfileV, profileVID)
     {
-        const request = `Update profile_videos set description = $1, profile_id = $2, video_sequence = $3, enable = $4 where id = $5 returning *`;
+        const request = `Update profile_videos set description = $1, profile_id = $2, video_sequence = $3, enable = $4, nameId = $5 where id = $6 returning *`;
 
         const res = await db.query(request, [
             updateProfileV.description,
             updateProfileV.profile_id,
             updateProfileV.video_sequence,
             updateProfileV.enable,
+            updateProfileV.nameId,
             profileVID]);
 
         if(res.rowCount === 0)

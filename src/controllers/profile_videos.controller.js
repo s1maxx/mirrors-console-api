@@ -48,7 +48,7 @@ class ProfileVideosController {
                         if(files.length === 0)
                             return next(ApiError.BadRequest("File is not exists"));
 
-                        if((!fields.profile_id[0] || isNaN(parseInt(fields.profile_id[0]))) || !fields.description[0] || !fields.video_sequence[0] || fields.enable[0] === null)
+                        if((!fields.profile_id[0] || isNaN(parseInt(fields.profile_id[0]))) || !fields.description[0] || !fields.video_sequence[0] || fields.enable[0] === null || files.nameId[0] === null || files.nameId[0] === "")
                             return  next(ApiError.BadRequest("Incorrect data!"))
 
                         const video = await S3Service.upload(files.file[0]);

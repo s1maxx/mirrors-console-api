@@ -8,6 +8,7 @@ const profileArrayGet = [
     {path:'/profiles', needAuth:true, requiredRoles:[admin], table:profiles, function:profilesController.getProfiles, description: "return all profiles from DB"},
     {path:'/profile/:id', needAuth:true, requiredRoles:[admin, mirror_owner], table: profiles, function:profilesController.getProfile, description: "return profile by ID"},
     {path:'/profiles/:id', needAuth:true, requiredRoles:[admin, mirror_owner], table: profiles, function:profilesController.getProfiles, description: "return profiles by user ID"},
+    {path:'/profile/mirrors/:id', needAuth:true, requiredRoles:[admin, mirror_owner], table: profiles, function:profilesController.getProfileMirrors, description: "return profile-mirrors by profile_id"},
 ]
 
 const profileArrayPost = [

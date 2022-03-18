@@ -20,6 +20,15 @@ class ProfileController {
             next(e);
         }
     }
+    async getProfileMirrors(req,res,next){
+        try{
+            const profile = await ProfileService.getProfileMirrors(req.params.id);
+            return res.json(profile.rows);
+        }catch (e)
+        {
+            next(e);
+        }
+    }
     async addProfile(req,res,next){
         try{
             const errors = validationResult(req);

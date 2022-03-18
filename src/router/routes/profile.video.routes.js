@@ -28,7 +28,8 @@ const profileVideoArrayUpdate = [
             body('description', 'Invalid description'),
             body('video_sequence', 'Invalid video sequence'),
             body('profile_id', 'Invalid profile id').notEmpty().isNumeric(),
-            body('enable', 'Invalid boolean').isBoolean()
+            body('enable', 'Invalid boolean').isBoolean(),
+            body('nameId', "Invalid nameId").notEmpty()
         ], needAuth:true, requiredRoles:[admin, mirror_owner], table:profile_videos, function:profileVideoController.updateProfileVideo, description: "update profile video from DB"}
 ]
 

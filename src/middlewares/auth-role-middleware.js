@@ -23,9 +23,9 @@ export default async function (req, res, next) {
 
         const route = splited[splited.length - 2];
 
-        const isUserRequestAllHisData = ((route === mirrors && parseInt(userData.id) === parseInt(id)) || (route === profile_videos && parseInt(userData.id) === parseInt(id)));
+        const isUserRequestAllHisData = ((route === mirrors && parseInt(userData.id) === parseInt(id)) || (route === "profile/videos" && parseInt(userData.id) === parseInt(id)));
 
-        if (requiredTable && id && id && userData.role !== admin && (!isUserRequestAllHisData && userData.id === id)) {
+        if (requiredTable && id && userData.role !== admin && (!isUserRequestAllHisData)) {
             const isUserHasAccess = await apiService.isUserHasAccess(
                 userData.id,
                 requiredTable,

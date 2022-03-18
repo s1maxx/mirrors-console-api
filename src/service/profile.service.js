@@ -27,6 +27,20 @@ class ProfileService{
             throw ApiError.NotFound();
         return res;
     }
+    async getProfileMirrors(id){
+        const profile = await this.getProfile(id);
+        if(profile.rowCount === 0)
+            throw ApiError.NotFound();
+
+        const request = `Select m.* from mirrors as m join profiles as p on profile_id = p.id where p.id = $1`;
+        const res = await db.query(request, [id]);
+
+        profile.rows[0]["mirrors"] = res.rows;
+
+        if(res.rowCount === 0)
+            throw ApiError.NotFound();
+        return profile;
+    }
     async removeProfile(id){
         const request = `Delete from profiles where id = $1`;
 
