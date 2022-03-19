@@ -2,7 +2,8 @@ import {body} from "express-validator";
 
 import profileSnapController from "../../controllers/profile_snaps.controller.js";
 import {admin, mirror_owner} from "../../db/roles.js";
-import {profile_snaps} from "../../db/tables.js";
+import {profile_settings, profile_snaps} from "../../db/tables.js";
+import profileSettingsController from "../../controllers/profile_settings.controller.js";
 
 const profileSnapArrayGet = [
     {path:'/profile/snap/:id', needAuth:true, requiredRoles:[admin], table:profile_snaps, function:profileSnapController.getProfileSnap, description: "return profile snap by ID"},
@@ -23,12 +24,14 @@ const profileSnapArrayPost = [
             body('*.snap_id', 'Invalid snap id').notEmpty().isNumeric(),
             body('*.profile_id', 'Invalid profile id').notEmpty().isNumeric(),
             body('*.enable', 'Invalid boolean').isBoolean()
-        ], needAuth:true, requiredRoles:[admin], table:profile_snaps, function:profileSnapController.addProfileSnaps, description: "add profile array snap to DB"}
+        ], needAuth:true, requiredRoles:[admin], table:profile_snaps, function:profileSnapController.addProfileSnaps, description: "add profile array snap to DB"},
+    {path:'/del-profile-snaps', needAuth:true, requiredRoles:[admin], validate:[
+            body().isArray()
+        ], table:profile_settings, function:profileSnapController.removeProfileSnaps, description: "remove profile settings arr from DB"},
 ]
 
 const profileSnapArrayDelete = [
     {path:'/profile/snap/:id', needAuth:true, requiredRoles:[admin], table:profile_snaps, function:profileSnapController.removeProfileSnap, description: "remove profile snap from DB"},
-    {path:'/profile/snaps/', needAuth:true, requiredRoles:[admin], table:profile_snaps, function:profileSnapController.removeProfileSnaps, description: "remove profile snaps from DB"},
 ]
 
 const profileSnapArrayUpdate = [

@@ -20,12 +20,15 @@ const profileSettingsArrayPost = [
             body('*.name', 'Invalid name'),
             body('*.profile_id', 'Invalid profile id').notEmpty().isNumeric(),
             body('*.enable', 'Invalid boolean').isBoolean()
-        ], needAuth:true, requiredRoles:[admin, mirror_owner], table:profile_settings, function:profileSettingsController.addProfileSettingsArray, description: "add profile array settings to DB"}
+        ], needAuth:true, requiredRoles:[admin, mirror_owner], table:profile_settings, function:profileSettingsController.addProfileSettingsArray, description: "add profile array settings to DB"},
+    {path:'/del-profile-settings', needAuth:true, requiredRoles:[admin, mirror_owner], validate:[
+        body().isArray()
+        ], table:profile_settings, function:profileSettingsController.removeProfileSettingsArr, description: "remove profile settings arr from DB"},
+
 ]
 
 const profileSettingsArrayDelete = [
     {path:'/profile-settings/:id', needAuth:true, requiredRoles:[admin, mirror_owner], table:profile_settings, function:profileSettingsController.removeProfileSettings, description: "remove profile settings from DB"},
-    {path:'/profile-settings', needAuth:true, requiredRoles:[admin, mirror_owner], table:profile_settings, function:profileSettingsController.removeProfileSettingsArr, description: "remove profile settings arr from DB"},
 ]
 
 const profileSettingsArrayUpdate = [
