@@ -64,7 +64,7 @@ class ProfileVideosController {
                         if((!fields.profile_id[0] || isNaN(parseInt(fields.profile_id[0]))) || !fields.description[0] || !fields.video_sequence[0] || fields.enable[0] === null || fields.nameid[0] === null || fields.nameid[0] === "" )
                             return  next(ApiError.BadRequest("Incorrect data!"))
 
-                        if(files.file[0].headers["content-type"] !== "video/mp4")
+                        if(files.file[0].headers["content-type"] !== "video/mp4" || !files || !files.file)
                             return  next(ApiError.BadRequest("Incorrect video format!"))
 
                         const video = await S3Service.upload(files.file[0]);
