@@ -67,6 +67,11 @@ class ProfileVideosController {
                         if(files.file[0].headers["content-type"] !== "video/mp4" || !files || !files.file)
                             return  next(ApiError.BadRequest("Incorrect video format!"))
 
+                        const count = await ProfileVideoService.CountOfVideos(fields.profile_id[0]);
+                        console.log(count);
+                        if(count > 5)
+                            return  next(ApiError.BadRequest("Max video count per profile - 5!"))
+
                         const video = await S3Service.upload(files.file[0]);
                         const profileVideo = await ProfileVideoService.createProfileVideo(fields, video.Location, video.Key);
                         return res.json(profileVideo.rows[0]);
@@ -83,8 +88,10 @@ class ProfileVideosController {
     async removeProfileVideo(req,res,next){
         try{
             const video = await ProfileVideoService.getProfileVideo(req.params.id).then(async (result) => {
-                await ProfileVideoService.removeProfileVideo(req.params.id);
-                await S3Service.removeFile(result.rows[0].name);
+                // await S3Service.removeFile(result.rows[0].name).then(async (res)=>{
+                //
+                // })
+                await ProfileVideoService.removeProfileVideo(req.params.id)
             })
 
             return res.json("Success");
