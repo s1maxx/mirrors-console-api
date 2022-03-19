@@ -32,7 +32,7 @@ class ProfileSettingsService{
             throw e;
         }
     }
-    async removeProfileSettingsArr(id){
+    async removeProfileSettingsArr(body){
         if(!body)
             throw ApiError.BadRequest("Invalid body request!")
 
