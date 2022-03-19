@@ -32,9 +32,8 @@ class ProfileSnapsService{
             throw ApiError.BadRequest("Invalid body request!")
 
         try{
-            const ids = JSON.parse(body);
 
-            const request = `Delete from profile_snaps where id in (${ids.join(',')})`;
+            const request = `Delete from profile_snaps where id in (${body.join(',')})`;
 
             const res = await db.query(request);
 
