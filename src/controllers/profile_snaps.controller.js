@@ -54,6 +54,15 @@ class ProfileSnapsController {
             next(e);
         }
     }
+    async removeProfileSnaps(req,res,next){
+        try{
+            await ProfileSnapService.removeProfileSnaps(req?.body);
+            return res.json();
+        }catch (e)
+        {
+            next(e);
+        }
+    }
     async updateProfileSnap(req, res, next){
         try{
             const errors = validationResult(req);

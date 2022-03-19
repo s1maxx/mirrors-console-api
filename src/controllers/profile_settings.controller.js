@@ -59,6 +59,15 @@ class ProfileSettingsController {
             next(e);
         }
     }
+    async removeProfileSettingsArr(req,res,next){
+        try{
+            await ProfileSettingsService.removeProfileSettingsArr(req?.body);
+            return res.json();
+        }catch (e)
+        {
+            next(e);
+        }
+    }
     async updateProfileSettings(req, res, next){
         try{
             const errors = validationResult(req);

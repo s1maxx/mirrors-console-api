@@ -28,6 +28,7 @@ const profileSnapArrayPost = [
 
 const profileSnapArrayDelete = [
     {path:'/profile/snap/:id', needAuth:true, requiredRoles:[admin], table:profile_snaps, function:profileSnapController.removeProfileSnap, description: "remove profile snap from DB"},
+    {path:'/profile/snaps/', needAuth:true, requiredRoles:[admin], table:profile_snaps, function:profileSnapController.removeProfileSnaps, description: "remove profile snaps from DB"},
 ]
 
 const profileSnapArrayUpdate = [

@@ -32,6 +32,26 @@ class ProfileSettingsService{
             throw e;
         }
     }
+    async removeProfileSettingsArr(id){
+        if(!body)
+            throw ApiError.BadRequest("Invalid body request!")
+
+        try{
+            const ids = JSON.parse(body);
+
+            const request = `Delete from profile_settings where id in (${ids.join(',')})`;
+
+            const res = await db.query(request);
+
+            if(res.rowCount === 0)
+                throw ApiError.ServerException();
+            return res;
+        }
+        catch (e)
+        {
+            throw e;
+        }
+    }
     async createProfileSettings(profileSettings)
     {
         const first = []; const second = []; const third = [];

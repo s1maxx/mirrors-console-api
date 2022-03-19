@@ -26,6 +26,27 @@ class ProfileSnapsService{
             throw e;
         }
     }
+    async removeProfileSnaps(body){
+
+        if(!body)
+            throw ApiError.BadRequest("Invalid body request!")
+
+        try{
+            const ids = JSON.parse(body);
+
+            const request = `Delete from profile_snaps where id in (${ids.join(',')})`;
+
+            const res = await db.query(request);
+
+            if(res.rowCount === 0)
+                throw ApiError.ServerException();
+            return res;
+        }
+        catch (e)
+        {
+            throw e;
+        }
+    }
     async createProfileSnap(profileVideo)
     {
         const request = `Insert into profile_snaps(uuid,profile_id,snap_id,value,enable) values($1, $2, $3, $4, $5) returning *`;
