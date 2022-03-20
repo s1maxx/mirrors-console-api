@@ -6,6 +6,7 @@ import TokenService from "./token.service.js"
 import tokenService from "./token.service.js";
 import UserDto from "../dtos/adminModel.js";
 import {mirrors, profile_snaps, profile_videos, profiles} from "../db/tables.js";
+import UserService from "./user.service.js";
 
 class ApiService{
     async getAllTables(){
@@ -42,6 +43,9 @@ class ApiService{
         {
             throw ApiError.BadRequest(`Invalid password`);
         }
+
+        if(!user.rows[0].is_activated)
+            throw ApiError.Forbidden()
 
         const userDto = new UserDto(user.rows[0]);
         const tokens = await TokenService.generateTokens({...userDto});

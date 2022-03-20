@@ -6,6 +6,7 @@ import {mirrors, profile_videos} from "../db/tables.js";
 
 export default async function (req, res, next) {
     try {
+
         const authorizationHeader = req.headers.authorization;
         const accessToken = authorizationHeader.split(' ')[1];
         const userData = tokenService.validateTokenAccess(accessToken);

@@ -24,10 +24,6 @@ export default async function (req, res, next){
             return next(ApiError.UnavaliableData())
         }
 
-        const userFull = await UserService.getUser(userData.id)
-        if(!userFull.is_activated)
-            return next(ApiError.Forbidden())
-
         req.user = userData;
         next();
     }catch (e)

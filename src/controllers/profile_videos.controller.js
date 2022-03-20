@@ -69,7 +69,7 @@ class ProfileVideosController {
 
                         const count = await ProfileVideoService.CountOfVideos(fields.profile_id[0]);
                         console.log(count);
-                        if(count > 5)
+                        if(count >= 5)
                             return  next(ApiError.BadRequest("Max video count per profile - 5!"))
 
                         const video = await S3Service.upload(files.file[0]);
@@ -107,6 +107,9 @@ class ProfileVideosController {
             {
                 return next(ApiError.BadRequest('Error with update_profile-video function', errors))
             }
+            const count = await ProfileVideoService.CountOfVideos(fields.profile_id[0]);
+            if(count >= 5)
+                return  next(ApiError.BadRequest("Max video count per profile - 5!"))
             const updatedProfileVideo = await ProfileVideoService.updateProfileVideo(req.body, req.params.id);
             return res.json(updatedProfileVideo.rows[0])
         }catch (e)
