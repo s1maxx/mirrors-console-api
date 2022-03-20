@@ -1,7 +1,8 @@
 import ApiError from "../exceptions/api-error.js";
 import tokenService from "../service/token.service.js";
+import UserService from "../service/user.service.js";
 
-export default function (req, res, next){
+export default async function (req, res, next){
     try{
         const authorizationHeader = req.headers.authorization;
 
@@ -22,6 +23,10 @@ export default function (req, res, next){
         {
             return next(ApiError.UnavaliableData())
         }
+
+        const userFull = await UserService.getUser(userData.id)
+        if(!userFull.is_activated)
+            return next(ApiError.Forbidden())
 
         req.user = userData;
         next();

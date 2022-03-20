@@ -25,6 +25,11 @@ class ApiError extends Error {
      {
          return new ApiError(500, "Something went wrong on server side")
      }
+
+     static Forbidden()
+     {
+         return new ApiError(403, "Your account is deactivated. Please contact any admin.")
+     }
 }
 
 export default ApiError;
