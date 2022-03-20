@@ -55,6 +55,14 @@ class ProfileVideoService{
         return res.rowCount;
     }
 
+    async getPersonal(id){
+        const request = `Select * from profile_videos where id = $1`;
+
+        const res = await db.query(request, [id]);
+        return res.rows[0];
+    }
+
+
     async getProfileVideo(id){
         const request = `Select * from profile_videos where id = $1`;
 
@@ -118,21 +126,21 @@ class ProfileVideoService{
             throw ApiError.ServerException();
         return res;
     }
-    async updateProfileVideo(updateProfileV, profileVID)
+    async updateProfileVideo(updateProfileV, name, location, getOld)
     {
-        const getOld = await this.getProfileVideo(profileVID);
+        const request = `Update profile_videos set description = $1, profile_id = $2, video_sequence = $3, enable = $4, nameid = $5, name = $6, file_location = $7 where id = $8 returning *`;
 
-        const request = `Update profile_videos set description = $1, profile_id = $2, video_sequence = $3, enable = $4, nameid = $5 where id = $6 returning *`;
-
-        const reindex = await this.ReIndex(parseInt(updateProfileV.video_sequence), parseInt(updateProfileV.profile_id), false, getOld.rows[0].video_sequence);
+        const reindex = await this.ReIndex(parseInt(updateProfileV.video_sequence[0]), parseInt(updateProfileV.profile_id[0]), false, parseInt(getOld));
 
         const res = await db.query(request, [
-            updateProfileV.description,
-            updateProfileV.profile_id,
-            updateProfileV.video_sequence,
-            updateProfileV.enable,
-            updateProfileV.nameid,
-            profileVID]);
+            updateProfileV.description[0],
+            parseInt(updateProfileV.profile_id[0]),
+            updateProfileV.video_sequence[0],
+            updateProfileV.enable[0],
+            updateProfileV.nameid[0],
+            name,
+            location,
+            parseInt(updateProfileV.id[0])]);
 
         if(res.rowCount === 0)
             throw ApiError.ServerException();
