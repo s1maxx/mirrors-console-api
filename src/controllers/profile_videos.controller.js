@@ -107,7 +107,7 @@ class ProfileVideosController {
             {
                 return next(ApiError.BadRequest('Error with update_profile-video function', errors))
             }
-            const count = await ProfileVideoService.CountOfVideos(fields.profile_id[0]);
+            const count = await ProfileVideoService.CountOfVideos(req.body.profile_id);
             if(count >= 5)
                 return  next(ApiError.BadRequest("Max video count per profile - 5!"))
             const updatedProfileVideo = await ProfileVideoService.updateProfileVideo(req.body, req.params.id);
