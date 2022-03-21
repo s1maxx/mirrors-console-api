@@ -69,10 +69,11 @@ class ProfileVideosController {
                             return next(ApiError.BadRequest("Max video count per profile - 5!"))
 
 
-                        const video = await S3Service.upload(files.file[0]);
+                        const video = (await S3Service.upload(files.file[0])).on('httpUploadProgress');
+                        res.writte
                         const profileVideo = await ProfileVideoService.createProfileVideo(fields, video.Location, video.Key);
                         return res.json(profileVideo.rows[0]);
-                        return res.json(a);
+                        // return res.json(a);
                     }
 
                 }

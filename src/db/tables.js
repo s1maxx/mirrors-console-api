@@ -5,3 +5,4 @@ export const snaps = "snaps";
 export const profile_snaps = "profile_snaps";
 export const profile_videos = "profile_videos";
 export const profile_settings = "profile_settings";
+export const passwords = "passwords";

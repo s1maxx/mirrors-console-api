@@ -2,6 +2,20 @@ import db from '../db/index.js';
 import ApiError from "../exceptions/api-error.js";
 
 class UserService{
+    async changePassword(newPassword, id)
+    {
+        const request = `Update users set password = $1 where id = $2 returning *`;
+
+        const req = await db.query(request, [newPassword, id])
+
+        return req;
+    }
+    async getUserByEmail(email)
+    {
+        const users = await this.getAllUsers();
+
+        return users.rows.filter(x=>x.email === email)[0];
+    }
     async getAllUsers(){
         const request = "Select * from users Order by id";
         const res = await db.query(request);

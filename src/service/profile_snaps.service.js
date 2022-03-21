@@ -3,7 +3,7 @@ import ApiError from "../exceptions/api-error.js";
 
 class ProfileSnapsService{
     async getProfileSnap(id){
-        const request = `Select * from profile_snaps where uuid = $1`;
+        const request = `Select * from profile_snaps where profile_id = $1`;
 
         const res = await db.query(request, [id]);
         if(res.rowCount === 0)
