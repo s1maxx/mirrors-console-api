@@ -71,7 +71,7 @@ class S3Service {
             Key: name
         }
 
-        return s3.upload(uploadParams);
+        return s3.upload(uploadParams).promise();
     }
 
     async getFile(fileKey) {
