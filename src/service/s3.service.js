@@ -71,7 +71,6 @@ class S3Service {
             Key: name
         }
 
-        Upload
         return s3.upload(uploadParams);
     }
 
