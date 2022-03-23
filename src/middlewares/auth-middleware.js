@@ -18,11 +18,15 @@ export default async function (req, res, next){
             return next(ApiError.UnavaliableData())
         }
 
-        const userData = tokenService.validateTokenAccess(accessToken);
+        const userData = await tokenService.validateTokenAccess(accessToken);
         if(!userData)
         {
             return next(ApiError.UnavaliableData())
         }
+
+        const userD = await UserService.getUser(userData.id)
+        if(!userD?.rows[0]?.is_activated)
+            return next(ApiError.Forbidden())
 
         req.user = userData;
         next();
